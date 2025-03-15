@@ -22,10 +22,16 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
+            export PATH=$PATH:/home/ubuntu/.nvm/versions/node/v22.14.0/bin
+
             cd apps/next-app
-            git pull origin main
-            npm install
-            npm run build
+
+            git fetch origin main
+            git reset --hard origin/main
+
+            /home/ubuntu/.nvm/versions/node/v22.14.0/bin/npm install
+            /home/ubuntu/.nvm/versions/node/v22.14.0/bin/npm run build
+
             pm2 stop next-app || true
-            pm2 start npm --name "next-app" -- start
+            pm2 start /home/ubuntu/.nvm/versions/node/v22.14.0/bin/npm --name "next-app" -- start
             pm2 save
