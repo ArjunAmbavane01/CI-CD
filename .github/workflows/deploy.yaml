@@ -28,3 +28,4 @@ jobs:
             npm run build
             pm2 stop next-app || true
             pm2 start npm --name "next-app" -- start
+            pm2 save
